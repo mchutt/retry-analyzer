@@ -5,8 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.testng.IRetryAnalyzer;
 import org.testng.ITestResult;
 
-import java.io.IOException;
-import java.util.Properties;
+import static com.solvd.task.utils.PropertiesLoader.PropertySource.*;
 
 public class Retry implements IRetryAnalyzer {
 
@@ -16,15 +15,9 @@ public class Retry implements IRetryAnalyzer {
     public static final String PROPERTY_NAME = "retry_count";
 
     static {
-        int maxRetryCount;
-        try {
-            Properties properties = new Properties();
-            properties.load(ClassLoader.getSystemResourceAsStream("app.properties"));
-            maxRetryCount = Integer.parseInt(properties.getProperty(PROPERTY_NAME, "0"));
-            if (maxRetryCount == 0) LOGGER.warn("Property with name: " + PROPERTY_NAME + " not found. ");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        int maxRetryCount = Integer.parseInt(PropertiesLoader.getProperty(APP, PROPERTY_NAME, "0"));
+        if (maxRetryCount == 0)
+            LOGGER.warn("Property with name: '{}' not found in properties file. Setting the default value as: {}", PROPERTY_NAME, maxRetryCount);
         MAX_RETRY_COUNT = maxRetryCount;
     }
 

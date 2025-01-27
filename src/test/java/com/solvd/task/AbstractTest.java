@@ -2,7 +2,6 @@ package com.solvd.task;
 
 
 public abstract class AbstractTest {
-
     //helper methods
     protected void pause(long seconds) {
         long millis = seconds * 1000;

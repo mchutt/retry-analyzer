@@ -3,7 +3,7 @@
 <suite name="Multi Thread suite" verbose="1" parallel="methods">
     <test name="Users">
         <classes>
-            <class name="com.solvd.task.AppTest"/>
+            <class name="com.solvd.task.RetryAnalyzerTest"/>
         </classes>
     </test>
     <listeners>
