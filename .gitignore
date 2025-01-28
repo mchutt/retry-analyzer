@@ -41,5 +41,6 @@ build/
 test-output/
 
 user.properties
+agent.properties
 
 

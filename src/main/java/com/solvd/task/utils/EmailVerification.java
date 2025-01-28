@@ -17,6 +17,7 @@ public class EmailVerification {
     private static final String INBOX_FOLDER_NAME = "INBOX";
 
     public boolean isMessagePresent(String token) {
+        pause();
         Properties props = PropertiesLoader.getProperties(APP);
 
         try (Store store = Session.getInstance(props).getStore("imap")) {
@@ -30,6 +31,14 @@ public class EmailVerification {
             LOGGER.error("Error while searching message occurred: ", e);
         }
         return false;
+    }
+
+    private static void pause() {
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
