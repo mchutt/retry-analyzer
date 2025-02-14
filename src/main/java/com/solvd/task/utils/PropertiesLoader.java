@@ -8,8 +8,8 @@ import java.util.Properties;
 
 public class PropertiesLoader {
     private static final Logger LOGGER = LoggerFactory.getLogger(PropertiesLoader.class);
-    public static final String APP_PROPERTIES = "app.properties";
-    public static final String USER_PROPERTIES = "user.properties";
+    private static final String APP_PROPERTIES = "app.properties";
+    private static final String USER_PROPERTIES = "user.properties";
     private static final Properties appProperties = new Properties();
     private static final Properties userProperties = new Properties();
 
@@ -34,8 +34,8 @@ public class PropertiesLoader {
     public static String getProperty(PropertySource source, String key, String defaultValue) {
         Properties properties = getProperties(source);
         String property = properties.getProperty(key, defaultValue);
-        if (property == null) {
-            LOGGER.error("Property not found in {}: '{}'", source, key);
+        if (property == null || property.equalsIgnoreCase(defaultValue)) {
+            LOGGER.warn("Property with name: '{}' not found OR its value is equals to the default one. Properties file '{}'. Setting the default value as: {}", key, source.name(), defaultValue);
         }
         return property;
     }
@@ -45,17 +45,9 @@ public class PropertiesLoader {
     private static void loadProperty(Properties properties, String fileName) {
         try {
             properties.load(ClassLoader.getSystemResourceAsStream(fileName));
-            propertyLoaded(fileName);
+            LOGGER.info("Properties loaded from file '{}'", fileName);
         } catch (IOException e) {
-            propertyNotLoaded(e, fileName);
+            LOGGER.warn("Could not load properties from '{}'. {}", fileName, e);
         }
-    }
-
-    private static void propertyNotLoaded(IOException e, String propertyFile) {
-        LOGGER.warn("Could not load properties from '{}'. {}", propertyFile, e);
-    }
-
-    private static void propertyLoaded(String propertyFile) {
-        LOGGER.info("Properties loaded from file '{}'", propertyFile);
     }
 }

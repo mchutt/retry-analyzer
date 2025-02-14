@@ -12,13 +12,10 @@ public class Retry implements IRetryAnalyzer {
     private static final Logger LOGGER = LoggerFactory.getLogger(Retry.class);
     private int retryCount = 0;
     private static final int MAX_RETRY_COUNT;
-    public static final String PROPERTY_NAME = "retry_count";
+    private static final String PROPERTY_NAME = "retry_count";
 
     static {
-        int maxRetryCount = Integer.parseInt(PropertiesLoader.getProperty(APP, PROPERTY_NAME, "0"));
-        if (maxRetryCount == 0)
-            LOGGER.warn("Property with name: '{}' not found in properties file. Setting the default value as: {}", PROPERTY_NAME, maxRetryCount);
-        MAX_RETRY_COUNT = maxRetryCount;
+        MAX_RETRY_COUNT = Integer.parseInt(PropertiesLoader.getProperty(APP, PROPERTY_NAME, "0"));
     }
 
     @Override
