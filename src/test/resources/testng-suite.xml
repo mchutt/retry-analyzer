@@ -1,0 +1,12 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="Multi Thread suite" verbose="1" parallel="methods">
+    <test name="Users">
+        <classes>
+            <class name="com.solvd.task.RetryAnalyzerTest"/>
+        </classes>
+    </test>
+    <listeners>
+        <listener class-name="com.solvd.task.utils.RetryListener"/>
+    </listeners>
+</suite>
